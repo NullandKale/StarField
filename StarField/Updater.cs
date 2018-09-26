@@ -37,7 +37,7 @@ namespace StarField
 
         public void registerUpdateableObject(updateableObject toRegister)
         {
-            if (gameObjects.ContainsKey(toRegister.pos))
+            if (!gameObjects.ContainsKey(toRegister.pos))
             {
                 gameObjects.Add(toRegister.pos, toRegister);
                 Renderer.getInstance().register(toRegister.pos, toRegister.toDisplay);
@@ -69,12 +69,12 @@ namespace StarField
                 if(value)
                 {
                     Updater.getInstance().registerUpdateableObject(this);
-                    IsActive = true;
+                    isActive = true;
                 }
                 else
                 {
                     Updater.getInstance().deregisterUpdateableObject(this);
-                    IsActive = false;
+                    isActive = false;
                 }
             }
         }
@@ -83,10 +83,12 @@ namespace StarField
         public vector2 pos;
         public char toDisplay;
 
-        public updateableObject(bool active)
+        public updateableObject(bool active, vector2 pos, char toDisplay)
         {
-            IsActive = active;
+            this.toDisplay = toDisplay;
+            this.pos = pos;
             components = new List<iComponent>();
+            IsActive = active;
         }
 
         public void start()

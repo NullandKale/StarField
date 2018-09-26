@@ -8,6 +8,92 @@ namespace StarField
 {
     public static class Tests
     {
+        public static void isRandomSeedResettingMethodStable(int timesToTest)
+        {
+            List<vector2> toTest = new List<vector2>();
+
+            Random r = new Random();
+
+            for(int i = 0; i < 100; i++)
+            {
+                toTest.Add(new vector2(r.Next(), r.Next()));
+            }
+            
+            for(int i = 0; i < 100; i++)
+            {
+                char lastChar = getBackgroundChar(toTest[i]);
+                for(int j = 0; j < timesToTest; j++)
+                {
+                    if(lastChar != getBackgroundChar(toTest[i]))
+                    {
+                        Console.WriteLine("it is not stable");
+                    }
+                }
+            }
+
+            Console.ReadLine();
+        }
+
+        private static char getBackgroundChar(vector2 pos)
+        {
+            //init new Random so that the stars are stable position wise
+            if (new Random(pos.GetHashCode() + Program.randomSeed).NextDouble() > 0.9)
+            {
+                return '.';
+            }
+            else
+            {
+                return ' ';
+            }
+        }
+
+        public static void randomSeedResettingTest(int testsToAverage)
+        {
+            Console.WriteLine("Testing Random Seed Times");
+
+            int startSeed = 5;
+            Random r = new Random(startSeed);
+
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
+
+            int counter = 0;
+            for(int i = 0; i < testsToAverage; i++)
+            {
+                if(r.NextDouble() > 0.6)
+                {
+                    counter++;
+                }
+            }
+
+            watch.Stop();
+
+            double noSeedResetTime = watch.ElapsedMilliseconds / (double)testsToAverage;
+
+            Console.WriteLine("No Reset Time : " + noSeedResetTime + " ms with " + counter + " above 0.6");
+
+            watch.Restart();
+
+            vector2HashCode hasher = new vector2HashCode();
+
+            counter = 0;
+            for (int i = 0; i < testsToAverage; i++)
+            {
+                vector2 seed = new vector2(i + startSeed, i);
+                r = new Random(hasher.GetHashCode(seed));
+                if (r.NextDouble() > 0.6)
+                {
+                    counter++;
+                }
+            }
+
+            watch.Stop();
+
+            double SeedResetTime = watch.ElapsedMilliseconds / (double)testsToAverage;
+
+            Console.WriteLine("Reset Time : " + SeedResetTime + " ms with " + counter + " above 0.6");
+        }
+
         public static void testListDictLoopTimes(int listSize, int testsToAverage)
         {
             Console.WriteLine("Testing List Loop Times");

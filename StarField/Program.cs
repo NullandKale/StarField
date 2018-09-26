@@ -9,6 +9,7 @@ namespace StarField
     class Program
     {
         public static string baseFolder = AppDomain.CurrentDomain.BaseDirectory + @"\saves";
+        public static int randomSeed = 5;
 
         static void Main(string[] args)
         {
