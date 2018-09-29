@@ -8,6 +8,8 @@ namespace StarField
 {
     class Program
     {
+        public static string buildname = "StarField Dev Build";
+        public static string version = "v0.0.1";
         public static string baseFolder = AppDomain.CurrentDomain.BaseDirectory + @"\saves";
         public static int randomSeed = 5;
 
