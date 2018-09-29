@@ -12,6 +12,7 @@ namespace StarField
         public static bool run = true;
         public static bool look = false;
 
+        public static SaveData save;
         public static Renderer renderer;
         public static Updater updater;
         public static InputManager input;
@@ -25,15 +26,55 @@ namespace StarField
         private static long frameTime = 0;
         private static long tick = 0;
 
-        public static void runGame()
+        public static void initGame()
         {
+            Console.WriteLine(Program.buildname + " " + Program.version + " Loading...");
+
             renderer = Renderer.getInstance();
             updater = Updater.getInstance();
             input = InputManager.getInstance();
             gameTimer = new Stopwatch();
             frameTimer = new Stopwatch();
-            o = new updateableObject(true, new vector2(), '!');
             mainShipComputer = new ComputerConsole.Computer();
+
+            Console.Write("Enter Save Name: ");
+            string toLoad = Console.ReadLine().Trim();
+            if(SaveData.exists(toLoad))
+            {
+                save = SaveData.load(toLoad);
+                loadGame();
+            }
+            else
+            {
+                save = new SaveData(toLoad);
+                newGame();
+                SaveData.save(save);
+            }
+        }
+
+        public static void loadGame()
+        {
+            Console.WriteLine("Loading Game");
+            renderer.load();
+        }
+
+        public static void newGame()
+        {
+            Console.WriteLine("Creating New Game");
+            renderer.save();
+        }
+
+        public static void saveGame()
+        {
+            Console.WriteLine("Save Game");
+            renderer.save();
+
+            SaveData.save(save);
+        }
+
+        public static void runGame()
+        {
+
             mainShipComputer.Boot();
             tick = 0;
 
@@ -72,7 +113,7 @@ namespace StarField
                     mainShipComputer.doConsoleInput();
                 }
             }
-
+            saveGame();
         }
 
         public static void printFps()

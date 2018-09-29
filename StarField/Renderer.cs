@@ -33,6 +33,16 @@ namespace StarField
             renderBuffer = new Dictionary<vector2, char>(new vector2HashCode());
         }
 
+        public void save()
+        {
+            game.save.renderer_worldPos = worldPos;
+        }
+
+        public void load()
+        {
+            worldPos = game.save.renderer_worldPos;
+        }
+
         public void register(vector2 pos, char c)
         {
             if(!renderBuffer.ContainsKey(pos))

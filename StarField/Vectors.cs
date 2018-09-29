@@ -46,6 +46,7 @@ namespace StarField
         }
     }
 
+    [Serializable]
     public struct vector2
     {
         public static readonly vector2 zero = new vector2();
