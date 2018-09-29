@@ -82,6 +82,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComputerTerminal\Computer.cs" />
+    <Compile Include="ComputerTerminal\Cpu.cs" />
+    <Compile Include="ComputerTerminal\Memory.cs" />
+    <Compile Include="ComputerTerminal\Program.cs" />
+    <Compile Include="ComputerTerminal\Txt.cs" />
+    <Compile Include="ComputerTerminal\utilities.cs" />
     <Compile Include="game.cs" />
     <Compile Include="iComponent.cs" />
     <Compile Include="Input.cs" />

@@ -49,6 +49,25 @@ namespace StarField
             }
         }
 
+        public void clearScreen()
+        {
+            Console.SetCursorPosition(0, 0);
+
+            for (int i = 0; i < windowHeight; i++)
+            {
+                string toWrite = "";
+
+                for (int j = 0; j < windowWidth; j++)
+                {
+                    toWrite += " ";
+                }
+
+                Console.WriteLine(toWrite);
+            }
+
+            Console.SetCursorPosition(0, 0);
+        }
+
         public void renderFrame(bool fastMode)
         {
             if (fastMode)

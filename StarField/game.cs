@@ -10,6 +10,7 @@ namespace StarField
     public class game
     {
         public static bool run = true;
+        public static bool look = false;
 
         public static Renderer renderer;
         public static Updater updater;
@@ -18,6 +19,8 @@ namespace StarField
 
         private static Stopwatch frameTimer;
         private static Stopwatch gameTimer;
+
+        private static ComputerConsole.Computer mainShipComputer;
 
         private static long frameTime = 0;
         private static long tick = 0;
@@ -30,7 +33,8 @@ namespace StarField
             gameTimer = new Stopwatch();
             frameTimer = new Stopwatch();
             o = new updateableObject(true, new vector2(), '!');
-
+            mainShipComputer = new ComputerConsole.Computer();
+            mainShipComputer.Boot();
             tick = 0;
 
             gameTimer.Start();
@@ -39,34 +43,44 @@ namespace StarField
             {
                 tick++;
 
-                frameTimer.Restart();
-                updater.doUpdate();
-                renderer.renderFrame(false);
-                input.Update();
-                doTestInput();
-                frameTimer.Stop();
-
-                frameTime = frameTimer.ElapsedMilliseconds;
-
-                if (frameTime < 16)
+                if(look)
                 {
-                    if (frameTime > 0)
+                    frameTimer.Restart();
+                    updater.doUpdate();
+                    renderer.renderFrame(false);
+                    input.Update();
+                    doTestInput();
+                    frameTimer.Stop();
+
+                    frameTime = frameTimer.ElapsedMilliseconds;
+
+                    if (frameTime < 16)
                     {
-                        System.Threading.Thread.Sleep(16 - (int)frameTime);
+                        if (frameTime > 0)
+                        {
+                            System.Threading.Thread.Sleep(16 - (int)frameTime);
+                        }
+                        else
+                        {
+                            System.Threading.Thread.Sleep(15);
+                        }
                     }
-                    else
-                    {
-                        System.Threading.Thread.Sleep(15);
-                    }
+                    printFps();
                 }
-                printFps();
+                else
+                {
+                    mainShipComputer.doConsoleInput();
+                }
             }
 
         }
 
         public static void printFps()
         {
-            Console.Write(Program.buildname + ": " + Program.version + " AVG FPS: " + (int)((((double)gameTimer.ElapsedMilliseconds / (double)tick))) + " IFT: " + frameTime + "         ");
+            Console.Write(Program.buildname + ": " + Program.version + 
+                        " AVG FPS: " + (int)((((double)gameTimer.ElapsedMilliseconds / (double)tick))) + 
+                        " IFT: " + frameTime + 
+                        " lookingAt: " + renderer.worldPos.toString() + "          ");
         }
 
         public static void doTestInput()
@@ -89,6 +103,12 @@ namespace StarField
             if (input.IsKeyHeld(OpenTK.Input.Key.Right))
             {
                 renderer.worldPos.x++;
+            }
+
+            if(input.IsKeyHeld(OpenTK.Input.Key.Escape))
+            {
+                look = false;
+                renderer.clearScreen();
             }
         }
     }
