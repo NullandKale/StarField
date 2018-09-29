@@ -17,6 +17,7 @@ namespace StarField
         public static Updater updater;
         public static InputManager input;
         public static Camera camera;
+        public static universe.Universe universe;
 
         private static Stopwatch frameTimer;
         private static Stopwatch gameTimer;
@@ -28,6 +29,9 @@ namespace StarField
 
         public static void initGame()
         {
+            Stopwatch initTimer = new Stopwatch();
+            initTimer.Start();
+
             Console.WriteLine(Program.buildname + " " + Program.version + " Loading...");
 
             renderer = Renderer.getInstance();
@@ -35,6 +39,7 @@ namespace StarField
             input = InputManager.getInstance();
             camera = new Camera(new vector2());
             gameTimer = new Stopwatch();
+            universe = new universe.Universe();
             frameTimer = new Stopwatch();
             mainShipComputer = new ComputerConsole.Computer();
 
@@ -51,6 +56,9 @@ namespace StarField
                 newGame();
                 SaveData.save(save);
             }
+
+            initTimer.Stop();
+            Program.initTime = (initTimer.ElapsedMilliseconds / 1000.0) + " s";
         }
 
         public static void loadGame()
@@ -64,15 +72,18 @@ namespace StarField
             Console.WriteLine("Loading Game");
             renderer.load();
             updater.load();
+            universe.load();
         }
 
         public static void newGame()
         {
             Console.WriteLine("Initializing Game");
             updater.init();
+            universe.generate();
             Console.WriteLine("Saving New Game");
             renderer.save();
             updater.save();
+            universe.save();
         }
 
         public static void saveGame()
@@ -80,6 +91,7 @@ namespace StarField
             Console.WriteLine("Save Game");
             renderer.save();
             updater.save();
+            universe.save();
 
             SaveData.save(save);
         }
@@ -145,7 +157,8 @@ namespace StarField
             Console.Write(Program.buildname + ": " + Program.version + 
                         " AVG FPS: " + (int)((((double)gameTimer.ElapsedMilliseconds / (double)tick))) + 
                         " IFT: " + frameTime + 
-                        " lookingAt: " + renderer.worldPos.toString() + "          ");
+                        " initTime: " + Program.initTime +
+                        " lookingAt: " + renderer.worldPos.toString() + "   ");
         }
 
         public static void doTestInput()

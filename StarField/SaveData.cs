@@ -15,6 +15,9 @@ namespace StarField
         public string name;
         public string version;
 
+        //game.universe
+        public universe.UniverseData universe_data;
+
         //game.renderer
         public vector2 renderer_worldPos;
 
@@ -28,6 +31,7 @@ namespace StarField
         {
             this.name = name;
             version = Program.version;
+            universe_data = new universe.UniverseData();
             renderer_worldPos = new vector2();
             e_playerController_pos = new vector2();
             updater_gameObjects = new Dictionary<vector2, updateableObject>();

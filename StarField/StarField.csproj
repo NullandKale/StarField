@@ -91,6 +91,7 @@
     <Compile Include="ComputerTerminal\utilities.cs" />
     <Compile Include="game.cs" />
     <Compile Include="gameObjects\playerGameObject.cs" />
+    <Compile Include="gameObjects\universeObjects\SolarSystemObjects.cs" />
     <Compile Include="iComponent.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Program.cs" />
@@ -98,6 +99,9 @@
     <Compile Include="Renderer.cs" />
     <Compile Include="SaveData.cs" />
     <Compile Include="Tests.cs" />
+    <Compile Include="universe\solarSystem\SolarSystem.cs" />
+    <Compile Include="universe\solarSystem\SolarSystemGenerator.cs" />
+    <Compile Include="universe\Universe.cs" />
     <Compile Include="Updater.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Vectors.cs" />

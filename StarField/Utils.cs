@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 
 namespace StarField
 {
@@ -112,7 +113,7 @@ namespace StarField
             int area = r2 << 2;
             int rr = r << 1;
 
-            List<vector2> circle = new List<vector2>();
+            LinkedList<vector2> circle = new LinkedList<vector2>();
 
             for (int i = 0; i < area; i++)
             {
@@ -121,21 +122,35 @@ namespace StarField
 
                 if (tx * tx + ty * ty <= r2)
                 {
-                    circle.Add(new vector2(x + tx, y + ty));
+                    circle.AddLast(new vector2(x + tx, y + ty));
                 }
             }
 
-            if(thickness != -1 && r > 3)
+            if (thickness != -1 && r > 3)
             {
                 List<vector2> toExclude = getCircleOn(x, y, r - thickness, -1);
 
-                for(int i = 0; i < toExclude.Count; i++)
+                for (int i = 0; i < toExclude.Count; i++)
                 {
                     circle.Remove(toExclude[i]);
                 }
             }
 
-            return circle;
+            return circle.ToList();
+        }
+
+        public static List<vector2> getOnRadius(int x, int y, int r)
+        {
+            List<vector2> onRadius = new List<vector2>();
+
+            for(int i = 0; i < 360; i++)
+            {
+                double x1 = x + r * Math.Cos(i * (Math.PI / 180));
+                double y1 = y + r * Math.Sin(i * (Math.PI / 180));
+                onRadius.Add(new vector2((int)x1, (int)y1));
+            }
+
+            return onRadius;
         }
 
         public static int getCenteredInt(int change, int center)

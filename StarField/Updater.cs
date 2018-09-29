@@ -52,6 +52,7 @@ namespace StarField
             foreach (KeyValuePair<vector2, updateableObject> kvp in gameObjects)
             {
                 kvp.Value.start();
+                kvp.Value.move(kvp.Value.pos);
             }
         }
 
@@ -129,7 +130,7 @@ namespace StarField
             IsActive = active;
         }
 
-        public bool move(vector2 newPos)
+        public virtual bool move(vector2 newPos)
         {
             if (game.renderer.isPosEmpty(newPos))
             {

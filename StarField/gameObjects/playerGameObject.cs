@@ -9,7 +9,6 @@ namespace StarField.gameObjects
     [Serializable]
     public class playerGameObject : updateableObject
     {
-
         public playerGameObject(vector2 pos) : base(pos)
         {
             toDisplay = '^';
