@@ -14,6 +14,7 @@ namespace StarField.Components
         public void start(updateableObject gameObject)
         {
             pos = game.save.e_playerController_pos;
+            game.camera.enqueueGameObject(gameObject);
         }
 
         public void stop(updateableObject gameObject)
@@ -55,7 +56,7 @@ namespace StarField.Components
                 newPos.x++;
             }
 
-            if (game.input.IsKeyRising(OpenTK.Input.Key.Space))
+            if (game.input.IsKeyHeld(OpenTK.Input.Key.Space))
             {
                 for(int i = 0; i < lastCircle.Count; i++)
                 {

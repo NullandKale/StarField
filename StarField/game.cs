@@ -99,9 +99,21 @@ namespace StarField
                 if(look)
                 {
                     frameTimer.Restart();
-                    updater.doUpdate();
+
+                    if(tick % 2 == 0)
+                    {
+                        updater.doUpdate();
+                    }
+
                     renderer.renderFrame(false);
                     input.Update();
+
+                    if (input.IsKeyHeld(OpenTK.Input.Key.Escape))
+                    {
+                        look = false;
+                        renderer.clearScreen();
+                    }
+
                     camera.update();
                     frameTimer.Stop();
 
@@ -156,12 +168,6 @@ namespace StarField
             if (input.IsKeyHeld(OpenTK.Input.Key.Right))
             {
                 renderer.worldPos.x++;
-            }
-
-            if(input.IsKeyHeld(OpenTK.Input.Key.Escape))
-            {
-                look = false;
-                renderer.clearScreen();
             }
         }
     }

@@ -25,6 +25,8 @@ namespace StarField
             //Setup New Game
             updateableObject pc = new gameObjects.playerGameObject(new vector2(0, 0));
             pc.components.Add(new Components.PlayerController());
+
+            doStart();
         }
 
         public void save()
@@ -35,6 +37,7 @@ namespace StarField
         public void load()
         {
             gameObjects = game.save.updater_gameObjects;
+            doStart();
         }
 
         private Updater()
@@ -43,6 +46,15 @@ namespace StarField
         }
 
         private Dictionary<vector2, updateableObject> gameObjects;
+
+        public void doStart()
+        {
+            foreach (KeyValuePair<vector2, updateableObject> kvp in gameObjects)
+            {
+                kvp.Value.start();
+            }
+        }
+
 
         public void doUpdate()
         {

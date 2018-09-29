@@ -13,7 +13,6 @@ namespace StarField.gameObjects
         public playerGameObject(vector2 pos) : base(pos)
         {
             toDisplay = '^';
-            game.camera.enqueueGameObject(this);
         }
     }
 }
