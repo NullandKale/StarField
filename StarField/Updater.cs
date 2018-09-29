@@ -20,6 +20,21 @@ namespace StarField
             return sharedInstance;
         }
 
+        public void init()
+        {
+            //Setup New Game
+        }
+
+        public void save()
+        {
+            game.save.updater_gameObjects = gameObjects;
+        }
+
+        public void load()
+        {
+            gameObjects = game.save.updater_gameObjects;
+        }
+
         private Updater()
         {
             gameObjects = new Dictionary<vector2, updateableObject>();
@@ -54,6 +69,7 @@ namespace StarField
         }
     }
 
+    [Serializable]
     public class updateableObject
     {
         private bool isActive = false;

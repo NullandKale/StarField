@@ -14,13 +14,19 @@ namespace StarField
     {
         public string name;
         public string version;
+
+        //game.renderer
         public vector2 renderer_worldPos;
+
+        //game.updater
+        public Dictionary<vector2, updateableObject> updater_gameObjects;
 
         public SaveData(string name)
         {
             this.name = name;
             version = Program.version;
             renderer_worldPos = new vector2();
+            updater_gameObjects = new Dictionary<vector2, updateableObject>();
         }
 
         public static string getFileLoc(SaveData save)

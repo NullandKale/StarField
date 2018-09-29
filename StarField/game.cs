@@ -54,20 +54,32 @@ namespace StarField
 
         public static void loadGame()
         {
+            if(!save.version.Equals(Program.version))
+            {
+                Console.WriteLine("BAD SAVE VERSION CANNOT LOAD: " + SaveData.getFileLoc(save));
+                throw new Exception("BAD SAVE");
+            }
+
+
             Console.WriteLine("Loading Game");
             renderer.load();
+            updater.load();
         }
 
         public static void newGame()
         {
-            Console.WriteLine("Creating New Game");
+            Console.WriteLine("Initializing Game");
+            updater.init();
+            Console.WriteLine("Saving New Game");
             renderer.save();
+            updater.save();
         }
 
         public static void saveGame()
         {
             Console.WriteLine("Save Game");
             renderer.save();
+            updater.save();
 
             SaveData.save(save);
         }
