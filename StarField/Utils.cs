@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
@@ -103,6 +104,38 @@ namespace StarField
             }
 
             return rng.Next(min, max);
+        }
+
+        public static List<vector2> getCircleOn(int x, int y, int r, int thickness)
+        {
+            int r2 = r * r;
+            int area = r2 << 2;
+            int rr = r << 1;
+
+            List<vector2> circle = new List<vector2>();
+
+            for (int i = 0; i < area; i++)
+            {
+                int tx = (i % rr) - r;
+                int ty = (i / rr) - r;
+
+                if (tx * tx + ty * ty <= r2)
+                {
+                    circle.Add(new vector2(x + tx, y + ty));
+                }
+            }
+
+            if(thickness != -1 && r > 3)
+            {
+                List<vector2> toExclude = getCircleOn(x, y, r - thickness, -1);
+
+                for(int i = 0; i < toExclude.Count; i++)
+                {
+                    circle.Remove(toExclude[i]);
+                }
+            }
+
+            return circle;
         }
 
         public static int getCenteredInt(int change, int center)

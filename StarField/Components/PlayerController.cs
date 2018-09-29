@@ -30,6 +30,8 @@ namespace StarField.Components
             }
         }
 
+        List<vector2> lastCircle = new List<vector2>();
+
         private vector2 doInputCheck()
         {
             vector2 newPos = new vector2(pos);
@@ -51,6 +53,19 @@ namespace StarField.Components
             if (game.input.IsKeyHeld(OpenTK.Input.Key.D))
             {
                 newPos.x++;
+            }
+
+            if (game.input.IsKeyRising(OpenTK.Input.Key.Space))
+            {
+                for(int i = 0; i < lastCircle.Count; i++)
+                {
+                    game.renderer.deregisterBackground(lastCircle[i], '+');
+                }
+                lastCircle = utils.getCircleOn(pos.x, pos.y, 5, 1);
+                for (int i = 0; i < lastCircle.Count; i++)
+                {
+                    game.renderer.registerBackground(lastCircle[i], '+');
+                }
             }
 
             return newPos;

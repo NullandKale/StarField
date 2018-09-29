@@ -24,6 +24,7 @@ namespace StarField
         public readonly int windowWidth;
         public vector2 worldPos;
         private Dictionary<vector2, char> renderBuffer;
+        private Dictionary<vector2, char> backGroundBuffer;
 
         private Renderer()
         {
@@ -31,6 +32,7 @@ namespace StarField
             windowHeight = Console.WindowHeight - 1;
             windowWidth = Console.WindowWidth - 1;
             renderBuffer = new Dictionary<vector2, char>(new vector2HashCode());
+            backGroundBuffer = new Dictionary<vector2, char>(new vector2HashCode());
         }
 
         public void save()
@@ -61,6 +63,32 @@ namespace StarField
             if (renderBuffer.ContainsKey(pos))
             {
                 renderBuffer.Remove(pos);
+            }
+        }
+
+        public bool isPosEmptyBackground(vector2 pos)
+        {
+            return !backGroundBuffer.ContainsKey(pos);
+        }
+
+        public void registerBackground(vector2 pos, char c)
+        {
+            if (!backGroundBuffer.ContainsKey(pos))
+            {
+                backGroundBuffer.Add(pos, c);
+            }
+            else
+            {
+                backGroundBuffer.Remove(pos);
+                registerBackground(pos, c);
+            }
+        }
+
+        public void deregisterBackground(vector2 pos, char c)
+        {
+            if (backGroundBuffer.ContainsKey(pos))
+            {
+                backGroundBuffer.Remove(pos);
             }
         }
 
@@ -105,7 +133,14 @@ namespace StarField
                         }
                         else
                         {
-                            toPrint[x] = getBackgroundChar(currentLocation);
+                            if (backGroundBuffer.ContainsKey(currentLocation))
+                            {
+                                toPrint[x] = backGroundBuffer[currentLocation];
+                            }
+                            else
+                            {
+                                toPrint[x] = getBackgroundChar(currentLocation);
+                            }
                         }
                     }
 
@@ -146,11 +181,26 @@ namespace StarField
                                 Console.Write(toPrint.ToArray());
                                 toPrint.Clear();
                                 setConsoleColor(ConsoleColor.DarkGray);
-                                toPrint.Add(getBackgroundChar(currentLocation));
+
+                                if (backGroundBuffer.ContainsKey(currentLocation))
+                                {
+                                    toPrint.Add(backGroundBuffer[currentLocation]);
+                                }
+                                else
+                                {
+                                    toPrint.Add(getBackgroundChar(currentLocation));
+                                }
                             }
                             else
                             {
-                                toPrint.Add(getBackgroundChar(currentLocation));
+                                if (backGroundBuffer.ContainsKey(currentLocation))
+                                {
+                                    toPrint.Add(backGroundBuffer[currentLocation]);
+                                }
+                                else
+                                {
+                                    toPrint.Add(getBackgroundChar(currentLocation));
+                                }
                             }
                         }
                     }
