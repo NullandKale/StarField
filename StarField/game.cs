@@ -16,7 +16,7 @@ namespace StarField
         public static Renderer renderer;
         public static Updater updater;
         public static InputManager input;
-        public static updateableObject o;
+        public static Camera camera;
 
         private static Stopwatch frameTimer;
         private static Stopwatch gameTimer;
@@ -33,6 +33,7 @@ namespace StarField
             renderer = Renderer.getInstance();
             updater = Updater.getInstance();
             input = InputManager.getInstance();
+            camera = new Camera(new vector2());
             gameTimer = new Stopwatch();
             frameTimer = new Stopwatch();
             mainShipComputer = new ComputerConsole.Computer();
@@ -59,7 +60,6 @@ namespace StarField
                 Console.WriteLine("BAD SAVE VERSION CANNOT LOAD: " + SaveData.getFileLoc(save));
                 throw new Exception("BAD SAVE");
             }
-
 
             Console.WriteLine("Loading Game");
             renderer.load();
@@ -102,7 +102,7 @@ namespace StarField
                     updater.doUpdate();
                     renderer.renderFrame(false);
                     input.Update();
-                    doTestInput();
+                    camera.update();
                     frameTimer.Stop();
 
                     frameTime = frameTimer.ElapsedMilliseconds;
@@ -162,6 +162,55 @@ namespace StarField
             {
                 look = false;
                 renderer.clearScreen();
+            }
+        }
+    }
+
+    public class Camera
+    {
+        public vector2 currentCenter = new vector2();
+
+        public vector2 CurrentCenter
+        {
+            get
+            {
+                return currentCenter;
+            }
+            private set
+            {
+                currentCenter = value;
+                game.renderer.worldPos.x = value.x - (game.renderer.windowWidth / 2);
+                game.renderer.worldPos.y = value.y - (game.renderer.windowHeight / 2);
+            }
+        }
+
+        private readonly List<updateableObject> followTargetStack = new List<updateableObject>();
+
+        public Camera(vector2 coc)
+        {
+            CurrentCenter = coc;
+        }
+
+        public void enqueueGameObject(updateableObject toEnqueue)
+        {
+            followTargetStack.Add(toEnqueue);
+        }
+
+        public void removeGameObject(updateableObject toRemove)
+        {
+            followTargetStack.Remove(toRemove);
+        }
+
+        public void centerOnCell(vector2 coc)
+        {
+            CurrentCenter = coc;
+        }
+
+        public void update()
+        {
+            if(followTargetStack.Count > 0)
+            {
+                CurrentCenter = followTargetStack.Last().pos;
             }
         }
     }

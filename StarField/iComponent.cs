@@ -8,8 +8,8 @@ namespace StarField
 {
     public interface iComponent
     {
-        void start();
-        void stop();
-        void update();
+        void start(updateableObject gameObject);
+        void stop(updateableObject gameObject);
+        void update(updateableObject gameObject);
     }
 }

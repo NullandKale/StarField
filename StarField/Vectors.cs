@@ -58,6 +58,12 @@ namespace StarField
         public int x;
         public int y;
 
+        public vector2(vector2 toCopy)
+        {
+            x = toCopy.x;
+            y = toCopy.y;
+        }
+
         public vector2(int x, int y)
         {
             this.x = x;

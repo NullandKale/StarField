@@ -23,6 +23,8 @@ namespace StarField
         public void init()
         {
             //Setup New Game
+            updateableObject pc = new gameObjects.playerGameObject(new vector2(0, 0));
+            pc.components.Add(new Components.PlayerController());
         }
 
         public void save()
@@ -99,6 +101,14 @@ namespace StarField
         public vector2 pos;
         public char toDisplay;
 
+        public updateableObject(vector2 pos)
+        {
+            this.toDisplay = ' ';
+            this.pos = pos;
+            components = new List<iComponent>();
+            IsActive = true;
+        }
+
         public updateableObject(bool active, vector2 pos, char toDisplay)
         {
             this.toDisplay = toDisplay;
@@ -107,11 +117,26 @@ namespace StarField
             IsActive = active;
         }
 
+        public bool move(vector2 newPos)
+        {
+            if (game.renderer.isPosEmpty(newPos))
+            {
+                game.renderer.deregister(pos, toDisplay);
+                pos = newPos;
+                game.renderer.register(pos, toDisplay);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void start()
         {
             foreach (iComponent c in components)
             {
-                c.start();
+                c.start(this);
             }
         }
 
@@ -119,7 +144,7 @@ namespace StarField
         {
             foreach (iComponent c in components)
             {
-                c.update();
+                c.update(this);
             }
         }
 
@@ -127,7 +152,7 @@ namespace StarField
         {
             foreach (iComponent c in components)
             {
-                c.stop();
+                c.stop(this);
             }
         }
     }

@@ -43,6 +43,11 @@ namespace StarField
             worldPos = game.save.renderer_worldPos;
         }
 
+        public bool isPosEmpty(vector2 pos)
+        {
+            return !renderBuffer.ContainsKey(pos);
+        }
+
         public void register(vector2 pos, char c)
         {
             if(!renderBuffer.ContainsKey(pos))

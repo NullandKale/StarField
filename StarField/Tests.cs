@@ -150,7 +150,7 @@ namespace StarField
             {
                 for (int j = 0; j < componentsList.Count; j++)
                 {
-                    componentsList[j].update();
+                    componentsList[j].update(null);
                 }
             }
 
@@ -167,7 +167,7 @@ namespace StarField
             {
                 for (int j = 0; j < componentsDict.Count; j++)
                 {
-                    componentsDict[new vector2(j, j)].update();
+                    componentsDict[new vector2(j, j)].update(null);
                 }
             }
 
@@ -184,7 +184,7 @@ namespace StarField
             {
                 foreach (iComponent v in componentsList)
                 {
-                    v.update();
+                    v.update(null);
                 }
             }
 
@@ -201,7 +201,7 @@ namespace StarField
             {
                 foreach (KeyValuePair<vector2, testComponent> kvp in componentsDict)
                 {
-                    kvp.Value.update();
+                    kvp.Value.update(null);
                 }
             }
 
@@ -219,7 +219,7 @@ namespace StarField
                 for(int j = 0; j < componentsList.Count; j++)
                 {
                     iComponent working = componentsList.Single(s => (s.pos.x == j));
-                    working.update();
+                    working.update(null);
                 }
             }
 
@@ -240,7 +240,7 @@ namespace StarField
 
                     if(componentsDict.TryGetValue(new vector2(j,j), out working))
                     {
-                        working.update();
+                        working.update(null);
                     }
                 }
             }
@@ -261,17 +261,17 @@ namespace StarField
                 this.pos = pos;
             }
 
-            public void start()
+            public void start(updateableObject gameObject)
             {
 
             }
 
-            public void stop()
+            public void stop(updateableObject gameObject)
             {
 
             }
 
-            public void update()
+            public void update(updateableObject gameObject)
             {
 
             }

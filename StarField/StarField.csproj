@@ -82,6 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\PlayerController.cs" />
     <Compile Include="ComputerTerminal\Computer.cs" />
     <Compile Include="ComputerTerminal\Cpu.cs" />
     <Compile Include="ComputerTerminal\Memory.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="ComputerTerminal\Txt.cs" />
     <Compile Include="ComputerTerminal\utilities.cs" />
     <Compile Include="game.cs" />
+    <Compile Include="gameObjects\playerGameObject.cs" />
     <Compile Include="iComponent.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Program.cs" />
@@ -117,8 +119,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="gameObjects\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

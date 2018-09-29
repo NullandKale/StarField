@@ -21,11 +21,15 @@ namespace StarField
         //game.updater
         public Dictionary<vector2, updateableObject> updater_gameObjects;
 
+        //e.Player
+        public vector2 e_playerController_pos;
+
         public SaveData(string name)
         {
             this.name = name;
             version = Program.version;
             renderer_worldPos = new vector2();
+            e_playerController_pos = new vector2();
             updater_gameObjects = new Dictionary<vector2, updateableObject>();
         }
 
