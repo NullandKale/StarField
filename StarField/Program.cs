@@ -11,7 +11,7 @@ namespace StarField
         public static string buildname = "StarField Dev Build";
         public static string version = "v0.2.0";
         public static string initTime = "";
-        public static string baseFolder = AppDomain.CurrentDomain.BaseDirectory + @"\saves";
+        public static string baseFolder = AppDomain.CurrentDomain.BaseDirectory + @"\saves\";
         public static int randomSeed = 5;
 
         static void Main(string[] args)

@@ -17,6 +17,11 @@ namespace StarField
             return (T)v.GetValue(rng.Next(v.Length));
         }
 
+        public static T RandomValueFromList<T>(List<T> list)
+        {
+            return list[rng.Next(0, list.Count)];
+        }
+
         public static void clearInput()
         {
             int counter = 0;
@@ -145,7 +150,8 @@ namespace StarField
 
             for(int i = 0; i < 360; i++)
             {
-                double x1 = x + r * Math.Cos(i * (Math.PI / 180));
+                //double x1 = (x + r * Math.Cos(i * (Math.PI / 180))) * 1.2;
+                double x1 = (x + r * Math.Cos(i * (Math.PI / 180)));
                 double y1 = y + r * Math.Sin(i * (Math.PI / 180));
                 onRadius.Add(new vector2((int)x1, (int)y1));
             }

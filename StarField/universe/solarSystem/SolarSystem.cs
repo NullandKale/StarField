@@ -43,6 +43,8 @@ namespace StarField.universe
     {
         public string name;
         public vector2 position;
+        public int planetCount;
+        public gameObjects.universeObjects.Sun sun;
         public List<updateableObject> objects;
     }
 

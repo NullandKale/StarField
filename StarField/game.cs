@@ -43,6 +43,13 @@ namespace StarField
             frameTimer = new Stopwatch();
             mainShipComputer = new ComputerConsole.Computer();
 
+            List<String> saves = SaveData.getFiles();
+
+            for(int i = 0; i < saves.Count; i++)
+            {
+                Console.WriteLine(saves[i]);
+            }
+
             Console.Write("Enter Save Name: ");
             string toLoad = Console.ReadLine().Trim();
             if(SaveData.exists(toLoad))
@@ -71,19 +78,19 @@ namespace StarField
 
             Console.WriteLine("Loading Game");
             renderer.load();
-            updater.load();
             universe.load();
+            updater.load();
         }
 
         public static void newGame()
         {
             Console.WriteLine("Initializing Game");
-            updater.init();
             universe.generate();
+            updater.init();
             Console.WriteLine("Saving New Game");
             renderer.save();
-            updater.save();
             universe.save();
+            updater.save();
         }
 
         public static void saveGame()

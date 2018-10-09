@@ -42,8 +42,11 @@ namespace StarField.universe.solarSystem
                     workingPos = betterPositions[utils.getIntInRange(0, betterPositions.Count)];
                 }
 
-                Console.WriteLine(" @: " + workingPos.toString());
-                systems.Add(generateSolarSystemOn(workingPos));
+                SolarSystemData workingData = generateSolarSystemOn(workingPos);
+
+                Console.WriteLine(" @: " + workingPos.toString() + " size: " + workingData.sun.radius + " planetCount: " + workingData.planetCount);
+
+                systems.Add(workingData);
             }
 
             return systems;
@@ -55,12 +58,15 @@ namespace StarField.universe.solarSystem
 
             workingData.position = workingPos;
             workingData.name = "Unnamed: " + workingPos.toString();
+            workingData.planetCount = utils.getIntInRange(1, 12);
             workingData.objects = new List<updateableObject>();
-            workingData.objects.Add(new gameObjects.universeObjects.Sun(true, workingPos, '%', 2));
+            workingData.sun = new gameObjects.universeObjects.Sun(true, workingPos, '%', 3);
 
-            for(int i = 0; i < workingData.objects.Count; i++)
+            for(int i = 0; i < workingData.planetCount; i++)
             {
-                workingData.objects[i].move(workingData.objects[i].pos);
+                List<vector2> orbit = utils.getOnRadius(workingPos.x, workingPos.y, i * 10);
+                vector2 startPos = utils.RandomValueFromList(orbit);
+                workingData.objects.Add(new gameObjects.universeObjects.Planet(true, startPos, 'O', workingData.sun, orbit));
             }
 
             return workingData;

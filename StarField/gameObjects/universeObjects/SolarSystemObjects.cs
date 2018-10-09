@@ -16,6 +16,70 @@ namespace StarField.gameObjects.universeObjects
     }
 
     [Serializable]
+    public class Planet : updateableObject
+    {
+        private bool isOrbitDrawn = false;
+        public List<vector2> orbit;
+
+        public Planet(bool active, vector2 pos, char toDisplay, Sun sun, List<vector2> orbit) : base(active, pos, toDisplay)
+        {
+            this.orbit = orbit;
+            pos = utils.RandomValueFromList(orbit);
+        }
+
+        public void drawOrbitOnBackground()
+        {
+            if(!isOrbitDrawn)
+            {
+                for (int i = 0; i < orbit.Count; i++)
+                {
+                    if (game.renderer.isPosEmptyBackground(orbit[i]))
+                    {
+                        game.renderer.registerBackground(orbit[i], '-');
+                    }
+                }
+                isOrbitDrawn = true;
+            }
+            else
+            {
+                for (int i = 0; i < orbit.Count; i++)
+                {
+                    if (!game.renderer.isPosEmptyBackground(orbit[i]))
+                    {
+                        game.renderer.deregisterBackground(orbit[i], '-');
+                    }
+                }
+                isOrbitDrawn = false;
+            }
+        }
+
+        public override void update()
+        {
+            if(playerGameObject.pc.pos.dist(pos) < 100)
+            {
+                if(!isOrbitDrawn)
+                {
+                    drawOrbitOnBackground();
+                }
+            }
+            else
+            {
+                if (isOrbitDrawn)
+                {
+                    drawOrbitOnBackground();
+                }
+            }
+
+            base.update();
+        }
+
+        public override bool move(vector2 newPos)
+        {
+            return base.move(newPos);
+        }
+    }
+
+    [Serializable]
     public class CircleGameObject : updateableObject
     {
         public List<vector2> matter;

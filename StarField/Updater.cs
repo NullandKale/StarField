@@ -145,7 +145,7 @@ namespace StarField
             }
         }
 
-        public void start()
+        public virtual void start()
         {
             foreach (iComponent c in components)
             {
@@ -153,7 +153,7 @@ namespace StarField
             }
         }
 
-        public void update()
+        public virtual void update()
         {
             foreach (iComponent c in components)
             {
@@ -161,7 +161,7 @@ namespace StarField
             }
         }
 
-        public void stop()
+        public virtual void stop()
         {
             foreach (iComponent c in components)
             {
